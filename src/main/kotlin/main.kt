@@ -15,4 +15,7 @@ fun main() {
 
     println(tree.contains(3))
     println(tree.contains(4))
+
+    tree.removeElement(6)
+    tree.traverse()
 }

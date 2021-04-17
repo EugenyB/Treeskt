@@ -66,6 +66,49 @@ class Tree<T : Comparable<T>?> {
         }
     }
 
+    fun removeElement(key: T) {
+        removeElement(key, root)
+    }
+
+    private fun removeElement(key: T, node: Node<T>?) : Node<T>? {
+        var root = node
+        if (root == null) return root
+        if (key!! > root.key) {
+            root.right = removeElement(key, root.right)
+        } else if (key < root.key) {
+            root.left = removeElement(key, root.left)
+        } else {
+            if (root.left == null && root.right == null) {
+                root = null
+            } else if (root.right != null) {
+                root.key = successor(root)
+                root.right = removeElement(root.key, root.right)
+            } else {
+                root.key = predecessor(root)
+                root.left = removeElement(root.key, root.left)
+            }
+        }
+        return root
+    }
+
+    private fun successor(node: Node<T>) : T {
+        var root = node
+        root = root.right!!
+        while (root.left != null) {
+            root = root.left!!
+        }
+        return root.key
+    }
+
+    private fun predecessor(node: Node<T>) : T {
+        var root = node
+        root = root.left!!
+        while (root.right != null) {
+            root = root.right!!
+        }
+        return root.key
+    }
+
     operator fun contains(key: T): Boolean {
         return find(key) != null
     }
